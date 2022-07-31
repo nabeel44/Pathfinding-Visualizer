@@ -44,7 +44,7 @@ export default class PathfindingVisualizer extends Component {
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       if (i === visitedNodesInOrder.length) {
         setTimeout(() => {
-          this.animateShortestPath(nodesInShortestPathOrder);
+          this.animateShortestPathDijkstra(nodesInShortestPathOrder);
         }, 10 * i);
         return;
       }
@@ -60,20 +60,20 @@ export default class PathfindingVisualizer extends Component {
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
         if (i === visitedNodesInOrder.length) {
           setTimeout(() => {
-            this.animateShortestPath(nodesInShortestPathOrder);
-          }, 10 * i);
+            this.animateShortestPathAstar(nodesInShortestPathOrder);
+          }, 30 * i);
           return;
         }
         setTimeout(() => {
           const node = visitedNodesInOrder[i];
           document.getElementById(`node-${node.row}-${node.col}`).className =
             'node node-visited';
-        }, 10 * i);
+        }, 30 * i);
       }
 
   }
 
-  animateShortestPath(nodesInShortestPathOrder) {
+  animateShortestPathAstar(nodesInShortestPathOrder) {
     for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
       setTimeout(() => {
         const node = nodesInShortestPathOrder[i];
@@ -83,6 +83,15 @@ export default class PathfindingVisualizer extends Component {
     }
   }
 
+  animateShortestPathDijkstra(nodesInShortestPathOrder) {
+    for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
+      setTimeout(() => {
+        const node = nodesInShortestPathOrder[i];
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+          'node node-shortest-path';
+      }, 50 * i);
+    }
+  }
   visualizeDijkstra() {
     const {grid} = this.state;
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
@@ -99,7 +108,7 @@ export default class PathfindingVisualizer extends Component {
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = astar(grid, startNode, finishNode);
     console.log(visitedNodesInOrder);
-    const nodesInShortestPathOrder = getNodesInShortestPathOrderAstar(finishNode)
+    const nodesInShortestPathOrder = getNodesInShortestPathOrderAstar(startNode, finishNode)
     this.animateAstar(visitedNodesInOrder, nodesInShortestPathOrder);
   }
 
@@ -162,22 +171,18 @@ const getInitialGrid = () => {
 
 const createNode = (col, row) => {
   return {
+    previousNode: null,
     col,
     row,
-    isStart: row === START_NODE_ROW && col === START_NODE_COL,
-    isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
     distance: Infinity,
-    isVisited: false,
-    isWall: false,
-    previousNode: null,
+    fCost: null,
     gCost: null,
     hCost: null,
-    fCost: null, 
-    parent: null,
     open: false,
-    checked: false,
-
-
+    isStart: row === START_NODE_ROW && col === START_NODE_COL,
+    isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
+    isVisited: false,
+    isWall: false, 
   };
 };
 
