@@ -127,6 +127,7 @@ export default class PathfindingVisualizer extends Component {
           Visualize A Star Search Algorithm
         </button>
         <div className="grid">
+            Click And Drag to Place Walls
           {grid.map((row, rowIdx) => {
             return (
               <div key={rowIdx}>
