@@ -7,10 +7,14 @@ export function astar(grid, startNode, finishNode) {
     let visitedList = [];
     let newNode = startNode;
     manhattanDistance(newNode);
-    //openList.push(startNode);
     while (true) {
+        console.log(newNode);
         newNode = getNextNode(newNode, grid, visitedList);
+        if (typeof newNode === 'undefined') {
+            continue;
+        }
         if (newNode === finishNode) {
+            visitedList = visitedList.filter(item => item !== startNode);
             return visitedList;
         }
     }
@@ -75,9 +79,6 @@ function findNextNode(node) {
     
     }
     let nextNode = openList[bestNodeIndex];
-    //if (nextNode != null) {
-       // nextNode.previousNode = node;
-    //}
     return nextNode;
     }
 
@@ -103,17 +104,6 @@ function manhattanDistance(node) {
     node.fCost = node.hCost + node.gCost;
 }
 
-/*
-export function getNodesInShortestPathOrderAstar(finishNode) {
-    const nodesInShortestPathOrderAstar = [];
-    let currentNode = finishNode;
-    while (currentNode !== null) {
-        nodesInShortestPathOrderAstar.unshift(currentNode);
-        currentNode = currentNode.previousNode;
-    }
-    return nodesInShortestPathOrderAstar;
-}
-*/
 
 export function getNodesInShortestPathOrderAstar(startNode, finishNode) {
     let currentNode = finishNode;
@@ -123,6 +113,5 @@ export function getNodesInShortestPathOrderAstar(startNode, finishNode) {
         currentNode = currentNode.previousNode;
         if (currentNode !== startNode) nodesInShortestPathOrderAstar.push(currentNode)
     }
-    console.log(nodesInShortestPathOrderAstar)
     return nodesInShortestPathOrderAstar;
 }
