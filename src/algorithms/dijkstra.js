@@ -17,11 +17,6 @@ export function dijkstra(grid, startNode, finishNode) {
     }
   }
 
-  // chaneg for commit
-  function sampelcreate(){
-    let x = 2
-  }
-
 function sortNodesByDistance(unvisitedNodes) {
     unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
   }
@@ -56,4 +51,14 @@ function sortNodesByDistance(unvisitedNodes) {
     }
     return nodes;
   }
-  
+
+export function getNodesInShortestPathOrder(finishNode) {
+  const nodesInShortestPathOrder = [];
+  let currentNode = finishNode;
+  while (currentNode !== null) {
+    nodesInShortestPathOrder.unshift(currentNode);
+    currentNode = currentNode.previousNode;
+  }
+  return nodesInShortestPathOrder;
+}
+
