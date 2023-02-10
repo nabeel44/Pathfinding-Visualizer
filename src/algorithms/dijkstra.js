@@ -1,5 +1,3 @@
-
-
 export function dijkstra(grid, startNode, finishNode) {
     let visitedNodesInOrder = [];
     startNode.distance = 0;
@@ -17,6 +15,11 @@ export function dijkstra(grid, startNode, finishNode) {
       if (currentNode === finishNode) return visitedNodesInOrder;
       setNeighborsNewDistance(currentNode, grid);
     }
+  }
+
+  // chaneg for commit
+  function sampelcreate(){
+    let x = 2
   }
 
 function sortNodesByDistance(unvisitedNodes) {
@@ -54,12 +57,3 @@ function sortNodesByDistance(unvisitedNodes) {
     return nodes;
   }
   
-  export function getNodesInShortestPathOrder(finishNode) {
-    const nodesInShortestPathOrder = [];
-    let currentNode = finishNode;
-    while (currentNode !== null) {
-      nodesInShortestPathOrder.unshift(currentNode);
-      currentNode = currentNode.previousNode;
-    }
-    return nodesInShortestPathOrder;
-  }
